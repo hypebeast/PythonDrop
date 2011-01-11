@@ -1,0 +1,42 @@
+###
+## Local client settings
+###
+
+# Logging options
+# Available log levels: DEBUG, INFO
+log_level: DEBUG
+
+# Repository type
+# Available types: 'git', 'svn'
+repository_type: git
+
+# Root folder
+# You must specify an absolute path (relative path doesn't work!)
+pythondrop_folder: C:\Users\sruml\Documents\PythonDrop 
+
+# Update interval for the file synchronization (in seconds)
+sync_interval: 5
+
+# TCP Server settings
+# The IP the server should listen to.
+# For security reasons you should listen to 127.0.0.1
+tcp_listen_ip: 127.0.0.1
+
+# The port the server will listen
+tcp_listen_port: 12444
+
+# Start the daemon on system startup
+start_on_system_startup: True
+
+###
+## Remote repository settings
+###
+
+# The remote user (ssh login) 
+remote_user: pythondrop
+
+# The remote host where the remote repository is hosted
+remote_host: sebastianruml.com
+
+# The path where your remote repository is located
+remote_repository_path: pythondrop/PythonDrop.git
