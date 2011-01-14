@@ -1,1 +1,6 @@
-TODO: Here goes the README.
+PythonDrop - A Dropbox Alternative
+==================================
+
+
+Overview
+--------
