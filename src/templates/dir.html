@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="content">
+        <div class="page-header">
+            <h1>Share <small>{{ share_name }}</small></h1>
+        </div>
+        <div class="row">
+            <div class="span14">
+                <h2>/</h2>
+
+                <table class="bordered-table">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>age</th>
+                            <th>size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if files %}
+                            {% for file in files %}
+                                <tr>
+                                    {% if file.isDir %}
+                                        <td><img src="{{ url_for('static', filename='img/folder.png') }}">{{ file.name }}</td>
+                                    {% else %}
+                                        <td><img src="{{ url_for('static', filename='img/file.png') }}">{{ file.name }}</td>
+                                    {% endif %}
+                                    <td>{{ file.mdate }}</td>
+                                    <td>{{ file.size }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No files found in this directory.</h3>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- content -->
+{% endblock %}

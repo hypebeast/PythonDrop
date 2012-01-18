@@ -1,4 +1,4 @@
-# Copyright (C) 2010 Sebastian Ruml <sebastian.ruml@gmail.com>
+# Copyright (C) 2010 - 2012 Sebastian Ruml <sebastian.ruml@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,15 +16,34 @@
 
 
 globals = None
-PythonDrop = None
 
 class _Globals:
     def __init__(self):
         self.appName = None
         self.version = None
         self.pythondrop = None
-        
-        
+        self.baseDir = None
+        self.confDir = None
+        self.cfgFile = None
+        self.cfgDb = None
+        self.config = None
+        self.argv = None
+
+        # Default configuration
+        self.DEFAULT_CONFIG = """\
+        [general]
+        logLevel = 'DEBUG'
+        syncFolder = ''
+        syncInterval = 5
+        tcpListenIp = '127.0.0.1'
+        tcpListenPort = 12444
+        enableGui = True
+
+        [repository]
+        remoteUser = ''
+        remoteHost = ''
+        remoteRepositoryPath = ''"""
+
 def Globals():
     global globals
     if not globals:

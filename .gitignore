@@ -1,0 +1,4 @@
+*.pyc
+*.log
+config.ini
+build/

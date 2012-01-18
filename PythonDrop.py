@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2010 Sebastian Ruml <sebastian.ruml@gmail.com>
+# Copyright (C) 2010 - 2012 Sebastian Ruml <sebastian.ruml@gmail.com>
 #
 # This file is part of the PythonDrop project
 #
@@ -18,45 +18,70 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-import os
 import sys
 import platform
-import subprocess
 
 from src import pythondrop
-from src import globals as gl
+from src import config
+from optparse import OptionParser
 
 __appName__ = 'PythonDrop'
-__version__ = '0.1.0'
-
+__version__ = '0.2.0'
 
 # Check that at least Python 2.5 is running
 if sys.version_info < (2, 5):
-    print _('Python version must be at least 2.5.')
+    print ('Python version must be at least 2.5.')
     sys.exit(1)
-    
-if platform.system() is not "Windows":
-    print _('Currently only Windows is supported')
+if platform.system() != "Windows" and platform.system() != "Darwin":
+    print ('Currently only Windows and Mac OS X are supported!')
     sys.exit(1)
-    
-    
+
+# find out if they are asking for help
+HELP = False
+for val in sys.argv:
+    if val == '-h' or val == '--help': HELP = True
+
 def main():
     """
-    Everything dispatches from this main function
+    Everything dispatches from this main function.
     """
-    # Start the PythonDrop daemon
-    #pythondrop.PythonDrop()
-    subprocess.Popen("python src/pythondrop.py")
-    
-    # Start the PythonDrop GUI
-    subprocess.Popen("python src/gui/pythondrop_ui.py")
+    usage = "usage: %prog start|stop|restart"
 
+    # Save the command line arguments
+    #globalVars.argv = sys.argv
+
+    # Parse the command line
+    (options, args) = config.clParser(OptionParser(usage=usage, version=__version__)).parseArgs(HELP)
+    if HELP:
+        sys.exit(0)
+
+    # Check for the correct numbers of arguments
+    if len(args) != 1:
+        print "usage: PythonDrop.py start|stop|restart"
+        sys.exit(2)
+
+    daemon = pythondrop.PythonDrop("/tmp/pythondrop.pid")
+    # Parse args
+    if args[0] == "start":
+        if options.debugmode:
+            daemon.run()
+        else:
+            daemon.start()
+    elif args[0] == "stop":
+        daemon.stop()
+    elif args[0] == "restart":
+        daemon.restart()
+    else:
+        print "Unknown command"
+        print "usage: PythonDrop.py start|stop|restart"
+
+    sys.exit(0)
 
 if __name__ == '__main__':
-	try:
-		main()
-	except SystemExit:
-		raise
-	except: # BaseException doesn't exist in python2.4
-		import traceback
-		traceback.print_exc()
+    try:
+        main()
+    except (KeyboardInterrupt, SystemExit):
+        sys.exit(1)
+    except: # BaseException doesn't exist in python 2.4
+        import traceback
+        traceback.print_exc()
