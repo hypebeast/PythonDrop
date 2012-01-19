@@ -25,36 +25,20 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 import threading
 
-
+# Our Flask app
 app = Flask(__name__)
 
 def init_db():
     pass
 
 def connect_db():
+    # Connect to the database
     pass
 
 @app.before_request
 def before_request():
     # TODO: Make sure that we're connect to the database
     pass
-
-def get_files(directory):
-    # TODO: Check if dir exists
-
-    files = os.listdir(directory)
-
-    fileInfos = []
-    for file in files:
-        filepath = os.path.join(directory, file)
-
-        finfo = FileInfo(file)
-        finfo.size = bytes2human(os.path.getsize(filepath))
-        finfo.mdate = time.ctime(os.path.getmtime(filepath))
-        finfo.isDir = os.path.isdir(filepath)
-        fileInfos.append(finfo)
-
-    return fileInfos
 
 @app.route('/')
 def index():
@@ -63,7 +47,8 @@ def index():
 
 @app.route('/shares/')
 @app.route('/shares/<int:share_id>/')
-def dir(share_id=None):
+@app.route('/shares/<int:share_id>/<path:dir>/')
+def dir(share_id=None, dir=None):
     # TODO: Get the share path from the config
     if share_id == None:
         share_id = 0
@@ -73,7 +58,40 @@ def dir(share_id=None):
     else:
         share_path = '/Users/sruml/PythonDrop'
 
-    return render_template('dir.html', share_name=share_path, files=get_files(share_path))
+    # Get the active directory and build all information for the breadcrumb
+    dirs = []
+    if dir is not None:
+        dir_path = os.path.join(share_path, dir)
+        path_parts = dir.split('/')
+        first = True
+        for p in path_parts:
+            dirInfo = DirInfo(p)
+            if first:
+                dirInfo.url = "shares/" + str(share_id) + '/' + p
+                parent_url = dirInfo.url
+                first = False
+            else:
+                dirInfo.url = parent_url + '/' + p
+                parent_url = dirInfo.url
+
+            dirs.append(dirInfo)
+    else:
+        dir_path = share_path
+        path_parts = None
+
+    # Get all files in the given directory
+    files = get_files(dir_path)
+    if files is not None:
+        for file in files:
+            if dir is not None:
+                file.url = "shares/" + str(share_id) + '/' + dir + '/' + file.name
+            else:
+                file.url = "shares/" + str(share_id) + '/' + file.name
+
+    return render_template('dir.html',
+            share_name=share_path,
+            files=files,
+            path_parts=dirs)
 
 @app.route('/settings')
 def settings():
@@ -82,6 +100,7 @@ def settings():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 class WebServer:
     """
@@ -104,6 +123,35 @@ class WebServer:
 # Helper classes
 ####
 
+class DirInfo:
+    def __init__(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+    def set_name(self, name):
+        self._name = name
+
+    name = property(get_name, set_name)
+
+    def get_path(self):
+        return self._path
+
+    def set_path(self, path):
+        self._path = path
+
+    path = property(get_path, set_path)
+
+    def get_url(self):
+        return self._url
+
+    def set_url(self, url):
+        self._url = url
+
+    url = property(get_url, set_url)
+
+
 class FileInfo:
     def __init__(self, name):
         self._name = name
@@ -115,6 +163,22 @@ class FileInfo:
         self._name = name
 
     name = property(get_name, set_name)
+
+    def get_path(self):
+        return self._path
+
+    def set_path(self, path):
+        self._path = path
+
+    path = property(get_path, set_path)
+
+    def get_url(self):
+        return self._url
+
+    def set_url(self, url):
+        self._url = url
+
+    url = property(get_url, set_url)
 
     def get_size(self):
         return self._size
@@ -144,6 +208,24 @@ class FileInfo:
 # Helper methods
 ####
 
+def get_files(directory):
+    # TODO: Check if dir exists
+
+    # Find all files in the given directory
+    files = os.listdir(directory)
+
+    fileInfos = []
+    for file in files:
+        filepath = os.path.join(directory, file)
+
+        finfo = FileInfo(file)
+        finfo.size = bytes2human(os.path.getsize(filepath))
+        finfo.mdate = time.ctime(os.path.getmtime(filepath))
+        finfo.isDir = os.path.isdir(filepath)
+        fileInfos.append(finfo)
+
+    return fileInfos
+
 def bytes2human(n):
     symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
     prefix = {}
@@ -154,3 +236,9 @@ def bytes2human(n):
             value = float(n) / prefix[s]
             return '%.1f%s' % (value, s)
     return "%sB" % n
+
+def date2human(date):
+    """
+    Converts the given date to nice readable format.
+    """
+    pass

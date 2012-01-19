@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2010 Sebastian Ruml, <sebastian.ruml@gmail.com> 
+# Copyright (C) 2010 Sebastian Ruml, <sebastian.ruml@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,14 +33,14 @@ class _Logger:
         common = '%(asctime)s.%(msecs)-4d %(levelname)-8s '
         default_format = common + '%(message)s'
         datefmt = '%d/%m/%Y %H:%M:%S'
-        
+
         self._log = logging.getLogger('PythonDrop')
-        
+
         logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s',
                     filename=log_file,
                     filemode='w')
-        
+
         # define a Handler which writes INFO messages or higher to the sys.stderr
         self.console = logging.StreamHandler()
         self.console.setLevel(logging.DEBUG)
@@ -48,22 +48,22 @@ class _Logger:
         formatter = logging.Formatter(default_format, datefmt)
         # tell the handler to use this format
         self.console.setFormatter(formatter)
-        
+
         # add the handler to the root logger
-        self._log.addHandler(self.console)
-        
+        #self._log.addHandler(self.console)
+
         root = logging.getLogger()
-        
+
 
     def set_level(self, name):
         """
         Set the log level. name can be one of:
-    
+
         - 'INFO'
         - 'DEBUG'
         - 'DEBUG_DETAILLED'
         - 'DEBUG_VERBOSE'
-    
+
         """
         level = logging.getLevelName(name)
         self._log.setLevel(level)

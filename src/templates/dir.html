@@ -6,8 +6,18 @@
         </div>
         <div class="row">
             <div class="span14">
-                <h2>/</h2>
+                <ul class="breadcrumb">
+                    {% if path_parts %}
+                    <li><a href="/shares/0">root</a> <span class="divider">/</span></li>
+                        {% for part in path_parts %}
+                        <li><a href="/{{ part.url }}">{{ part.name }}</a> <span class="divider">/</span></li>
+                        {% endfor %}
+                    {% else %}
+                    <li><a href="/shares/0">root</a></li>
+                    {% endif %}
+                </ul>
 
+                {% if files %}
                 <table class="bordered-table">
                     <thead>
                         <tr>
@@ -17,23 +27,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if files %}
-                            {% for file in files %}
-                                <tr>
-                                    {% if file.isDir %}
-                                        <td><img src="{{ url_for('static', filename='img/folder.png') }}">{{ file.name }}</td>
-                                    {% else %}
-                                        <td><img src="{{ url_for('static', filename='img/file.png') }}">{{ file.name }}</td>
-                                    {% endif %}
-                                    <td>{{ file.mdate }}</td>
-                                    <td>{{ file.size }}</td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <h3>No files found in this directory.</h3>
-                        {% endif %}
+                        {% for file in files %}
+                            <tr>
+                                {% if file.isDir %}
+                                <td><img src="{{ url_for('static', filename='img/folder.png') }}">
+                                    <a href="/{{ file.url }}">{{ file.name }}</a></td>
+                                {% else %}
+                                    <td><img src="{{ url_for('static', filename='img/file.png') }}">{{ file.name }}</td>
+                                {% endif %}
+                                <td>{{ file.mdate }}</td>
+                                <td>{{ file.size }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <h3>No files found in this directory.</h3>
+                {% endif %}
             </div>
         </div>
     </div> <!-- content -->
