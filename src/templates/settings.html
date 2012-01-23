@@ -6,8 +6,46 @@
         </div>
         <div class="row">
             <div class="span14">
-                <h3>Parameters</h3>
-                TODO: Show the parameters!
+                <h3>General</h3>
+                <table class="bordered-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Log Level</td>
+                            <td>{{ settings.logLevel }}</td>
+                        </tr>
+                        <tr>
+                            <td>Show Systray</td>
+                            <td>{{ settings.enableSystray }}</td>
+                        </tr>
+                        <tr>
+                            <td>API Listen IP</td>
+                            <td>{{ settings.tcpListenIp }}</td>
+                        </tr>
+                        <tr>
+                            <td>API Listen Port</td>
+                            <td>{{ settings.tcpListenPort }}</td>
+                        </tr>
+                        <tr>
+                            <td>Enable Web Server</td>
+                            <td>{{ settings.enableWebServer }}</td>
+                        </tr>
+                        <tr>
+                            <td>Web Server Listen IP</td>
+                            <td>{{ settings.webServerListenIp }}</td>
+                        </tr>
+                        <tr>
+                            <td>Web Server Listen Port</td>
+                            <td>{{ settings.webServerListenPort }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Shares</h3>
             </div>
         </div>
     </div>

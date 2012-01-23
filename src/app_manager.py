@@ -56,31 +56,32 @@ class PythonDrop(Daemon):
         self._logger = log.Logger()
 
 		# Load settings
-        self._config = Config(self._globals.cfgFile, self._globals.DEFAULT_CONFIG)
+        self._configOld = Config(self._globals.cfgFile, self._globals.DEFAULT_CONFIG)
+        #self._globals.config = self._config
+
+        self._config = Configuration()
         self._globals.config = self._config
 
-        self._configDb = Configuration()
-
-		# Set the log level
-        if not self._config.get_option('logLevel', 'general'):
-			self._config.set_option('logLevel', "Info", 'general')
-        self._logger.set_level(self._config.get_option('logLevel', 'general'))
+        # Set the log level
+        self._logger.set_level(self._config.logLevel)
 
         self._logger.info("Starting PythonDrop v" + self._globals.version + "...")
 
 		# Create and start the API server
-        self._api_server = ApiServer(self, self._config.get_option('tcpListenIp', 'general'), self._config.get_option('tcpListenPort', 'general'))
+        self._api_server = ApiServer(self, self._config.tcpListenIp, self._config.tcpListenPort)
 
         # Start the web server
         self.web_server = WebServer()
 
+        # TODO: Add support for more than one share!
+
         # Check if the systray should be shown
-        if self._config.get_option('enableGui', 'general'):
+        if self._config.enableSystray:
             self._logger.debug("Creating systray...")
             self._systray = pythondrop_ui.Systray(self._globals)
 
 		# Create the file watcher
-        self._fswatcher = FSWatcher(self._config)
+        self._fswatcher = FSWatcher(self._configOld)
 
     def run(self):
 		# Start watching and syncing files
@@ -97,6 +98,9 @@ class PythonDrop(Daemon):
 		Stops watching the repository.
 		"""
 		self._fswatcher.stop()
+
+    def reastart(self):
+        pass
 
     def pause(self):
         pass

@@ -25,8 +25,13 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 import threading
 
+from configuration import Configuration
+
 # Our Flask app
 app = Flask(__name__)
+
+# Configuration
+configuration = None
 
 def init_db():
     pass
@@ -95,7 +100,9 @@ def dir(share_id=None, dir=None):
 
 @app.route('/settings')
 def settings():
-    return render_template('settings.html')
+    global configuration
+    settings = configuration.app_settings()
+    return render_template('settings.html', settings=settings)
 
 @app.route('/about')
 def about():
@@ -116,6 +123,10 @@ class WebServer:
         self.server_thread.start()
 
     def run(self):
+        # Create the config
+        global configuration
+        configuration = Configuration()
+
         # Start the IO loop
         IOLoop.instance().start()
 
