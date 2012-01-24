@@ -65,15 +65,7 @@ class Configuration:
         if not os.path.exists(self._globals.cfgDb):
             Base.metadata.create_all(self._engine)
             self.create_default_config()
-
-        # Add some test data
-        #share = self.Share("/Users/sruml/PythonDrop", "sebastianruml.com",
-                            #"PythonDrop/PythonDrop.git", "pythondrop")
-        #print share.sync_folder
-        #print share.remote_host
-
-        #self._dbSession.add(share)
-        #self._dbSession.commit()
+            self.add_test_share()
 
     class Share(Base):
         __tablename__ = 'shares'
@@ -121,10 +113,12 @@ class Configuration:
         self._dbSession.add(settings)
         self._dbSession.commit()
 
-    def add_share():
-        pass
+    def add_share(self, syncFolder, remoteHost, remotePath, remoteUser):
+        share = self.Share(syncFolder, remoteHost, remotePath, remoteUser)
+        self._dbSession.add(share)
+        self._dbSession.commit()
 
-    def remove_share():
+    def remove_share(self, id):
         pass
 
     def get_shares(self):
@@ -197,4 +191,7 @@ class Configuration:
         self._dbSession.commit()
 
     webServerListenPort = property(get_webServerListenPort, set_webServerListenPort)
+
+    def add_test_share(self):
+        self.add_share("/Users/sruml/PythonDrop", "sebastianruml.com", "PythonDrop/PythonDrop.git", "pythondrop")
 

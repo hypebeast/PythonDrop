@@ -21,7 +21,7 @@
 import sys
 import platform
 
-from src import pythondrop
+from src import app_manager
 from src import config
 from optparse import OptionParser
 
@@ -47,9 +47,6 @@ def main():
     """
     usage = "usage: %prog start|stop|restart"
 
-    # Save the command line arguments
-    #globalVars.argv = sys.argv
-
     # Parse the command line
     (options, args) = config.clParser(OptionParser(usage=usage, version=__version__)).parseArgs(HELP)
     if HELP:
@@ -60,7 +57,7 @@ def main():
         print "usage: PythonDrop.py start|stop|restart"
         sys.exit(2)
 
-    daemon = pythondrop.PythonDrop("/tmp/pythondrop.pid")
+    daemon = app_manager.AppManager("/tmp/pythondrop.pid")
     # Parse args
     if args[0] == "start":
         if options.debugmode:

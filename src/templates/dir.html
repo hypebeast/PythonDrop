@@ -18,7 +18,7 @@
                 </ul>
 
                 {% if files %}
-                <table class="bordered-table">
+                <table class="bordered-table zebra-striped">
                     <thead>
                         <tr>
                             <th>name</th>
@@ -30,13 +30,13 @@
                         {% for file in files %}
                             <tr>
                                 {% if file.isDir %}
-                                <td><img src="{{ url_for('static', filename='img/folder.png') }}">
+                                <td><img class="img" src="{{ url_for('static', filename='img/folder.png') }}">
                                     <a href="/{{ file.url }}">{{ file.name }}</a></td>
                                 {% else %}
                                     <td><img src="{{ url_for('static', filename='img/file.png') }}">{{ file.name }}</td>
                                 {% endif %}
-                                <td>{{ file.mdate }}</td>
-                                <td>{{ file.size }}</td>
+                                <td class="modified">{{ file.mdate }}</td>
+                                <td class="size">{{ file.size }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

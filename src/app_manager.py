@@ -43,7 +43,7 @@ globalVars.cfgFile = os.path.join(globalVars.confDir, 'config.ini')
 globalVars.cfgDb = os.path.join(globalVars.confDir, 'config.db')
 
 
-class PythonDrop(Daemon):
+class AppManager(Daemon):
     def __init__(self, pidfile):
         Daemon.__init__(self, pidfile)
 

@@ -6,7 +6,7 @@
         <meta name="PythonDrop" content="">
         <meta name="Sebastian Ruml" content="">
         
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/vendor/bootstrap.css') }}">
         
         <style type="text/css">
             /* Override some defaults */
@@ -59,6 +59,11 @@
                 border: 0;
             }
 
+            /* Dir Listing */
+            table td img { vertical-align: middle; }
+            table td.modified { width: 30%; }
+            table td.size { width: 15%; }
+
         </style>
     </head>
 
@@ -69,11 +74,11 @@
                 <div class="container">
                     <a class="brand" href="/">PythonDrop</a>
                     <ul class="nav">
-                        <li class="dropdown">
+                        <li class="dropdown" data-dropdown="dropdown">
                             <a href="/shares" class="dropdown-toggle">Shares</a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Share 1</a></li>
-                                <li><a href="#">Share 2</a></li>
+                                <li><a href="/shares/1">Share 1</a></li>
+                                <li><a href="/shares/2">Share 2</a></li>
                             </ul>
                         </li>
                         <li><a href="/settings">Settings</a></li>
@@ -92,8 +97,12 @@
         </div>
 
         <!-- JavaScript at the bottom for fast page loading -->
-        <script src="{{ url_for('static', filename='js/vendor/bootstrap-dropdown.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/vendor/bootstrap-buttons.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/vendor/jquery-1.7.1.min.js') }}" type="text/javascript"></script>
+        <script src="{{ url_for('static', filename='js/vendor/bootstrap-dropdown.js') }}" type="text/javascript"></script>
+        <script src="{{ url_for('static', filename='js/vendor/bootstrap-buttons.js') }}" type="text/javascript"></script>
+
+        <script src="{{ url_for('static', filename='js/app.js') }}" type="text/javascript"></script>
+        <script src="{{ url_for('static', filename='js/utils.js') }}" type="text/javascript"></script>
 
     </body>
 </html>

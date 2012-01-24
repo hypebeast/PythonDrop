@@ -54,16 +54,21 @@ def index():
 @app.route('/shares/<int:share_id>/')
 @app.route('/shares/<int:share_id>/<path:dir>/')
 def dir(share_id=None, dir=None):
+    global configuration
     # TODO: Get the share path from the config
+    shares = configuration.shares
+
     if share_id == None:
-        share_id = 0
+        share_id = 1
 
-    if share_id is not None and share_id == 0:
-        share_path = '/Users/sruml/PythonDrop'
+    share = next((share for share in shares if str(share.id) == share_id), None)
+
+    if share is not None:
+        share_path = share.sync_folder
     else:
-        share_path = '/Users/sruml/PythonDrop'
+        pass
 
-    # Get the active directory and build all information for the breadcrumb
+    # Get the active directory and build the path parts for the breadcrumb
     dirs = []
     if dir is not None:
         dir_path = os.path.join(share_path, dir)
@@ -95,8 +100,12 @@ def dir(share_id=None, dir=None):
 
     return render_template('dir.html',
             share_name=share_path,
-            files=files,
+            files=sort_files(files),
             path_parts=dirs)
+
+@app.route('/shares/new')
+def add_share():
+    pass
 
 @app.route('/settings')
 def settings():
@@ -236,6 +245,20 @@ def get_files(directory):
         fileInfos.append(finfo)
 
     return fileInfos
+
+def sort_files(files):
+    directories = []
+    filenames = []
+    for file in files:
+        if file.isDir:
+            directories.append(file)
+        else:
+            filenames.append(file)
+
+    directories.sort(key=lambda dir: unicode.lower(unicode(dir.name)))
+    filenames.sort(key=lambda file: unicode.lower(unicode(file.name)))
+    directories.extend(filenames)
+    return directories
 
 def bytes2human(n):
     symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
