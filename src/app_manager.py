@@ -29,15 +29,10 @@ import log
 import os
 
 
-__appName__ = 'PythonDrop'
-__version__ = '0.2.0'
-
-
 # Initialize some global variables
 globalVars = globals.Globals()
-globalVars.version = __version__
 globalVars.baseDir = os.path.dirname(os.path.realpath(__file__))
-globalVars.confDir = os.path.join(os.path.expanduser('~'), '.' + __appName__)
+globalVars.confDir = os.path.join(os.path.expanduser('~'), '.' + globalVars.appName)
 globalVars.cfgFile = os.path.join(globalVars.confDir, 'config.ini')
 globalVars.cfgDb = os.path.join(globalVars.confDir, 'config.db')
 globalVars.logFile = os.path.join(globalVars.confDir, 'pythondrop.log')
@@ -57,7 +52,6 @@ class AppManager(Daemon):
 
 		# Load settings
         self._configOld = Config(self._globals.cfgFile, self._globals.DEFAULT_CONFIG)
-
         self._config = Configuration()
         self._globals.config = self._config
         self._config.debugEnabled = debug
@@ -67,6 +61,8 @@ class AppManager(Daemon):
 
         self._logger.info("Starting PythonDrop v" + self._globals.version + "...")
 
+
+    def run(self):
 		# Create and start the API server
         self._api_server = ApiServer(self, self._config.tcpListenIp, self._config.tcpListenPort)
 
@@ -86,20 +82,22 @@ class AppManager(Daemon):
         for share in self._config.shares:
             print share.sync_folder
 
-    def run(self):
-		# Start watching and syncing files
+        # Start watching and syncing files
         self._fswatcher.watch()
 
-        # TODO: Create for every share a new thread
+        # TODO: Create a thread for every share
 
     def start(self):
         Daemon.start(self)
 
     def stop(self):
+        # TODO: Stop the fswatcher and the web server
+
         Daemon.stop(self)
 
-    def reastart(self):
-        pass
+    def restart(self):
+        self.stop()
+        self.start()
 
     def pause(self):
         pass
@@ -114,6 +112,6 @@ if __name__ == '__main__':
 		PythonDrop()
 	except SystemExit:
 		raise
-	except: # BaseException doesn't exist in python2.4
+	except:
 		import traceback
 		traceback.print_exc()

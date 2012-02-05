@@ -19,8 +19,8 @@ globals = None
 
 class _Globals:
     def __init__(self):
-        self.appName = None
-        self.version = None
+        self.appName = 'PythonDrop'
+        self.version = '0.2.0'
         self.pythondrop = None
         self.baseDir = None
         self.confDir = None
@@ -30,20 +30,7 @@ class _Globals:
         self.config = None
         self.argv = None
 
-        # Default configuration
-        self.DEFAULT_CONFIG = """\
-        [general]
-        logLevel = 'DEBUG'
-        syncFolder = ''
-        syncInterval = 5
-        tcpListenIp = '127.0.0.1'
-        tcpListenPort = 12444
-        enableGui = True
-
-        [repository]
-        remoteUser = ''
-        remoteHost = ''
-        remoteRepositoryPath = ''"""
+        self.DEFAULT_CONFIG = ""
 
 def Globals():
     global globals

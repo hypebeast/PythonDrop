@@ -28,12 +28,12 @@ from optparse import OptionParser
 __appName__ = 'PythonDrop'
 __version__ = '0.2.0'
 
-# Check that at least Python 2.5 is running
-if sys.version_info < (2, 5):
-    print ('Python version must be at least 2.5.')
+# Check that at least Python 2.6 is running
+if sys.version_info < (2, 6):
+    print ('Python version must be at least 2.6.')
     sys.exit(1)
-if platform.system() != "Windows" and platform.system() != "Darwin":
-    print ('Currently only Windows and Mac OS X are supported!')
+if platform.system() != "Darwin":
+    print ('Mac OS X are supported!')
     sys.exit(1)
 
 # find out if they are asking for help
@@ -72,6 +72,7 @@ def main():
         print "Unknown command"
         print "usage: PythonDrop.py start|stop|restart"
 
+    print "Exit..."
     sys.exit(0)
 
 if __name__ == '__main__':
