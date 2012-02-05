@@ -6,7 +6,7 @@
             {% if error %}<div class=error><strong>Error:</strong> {{ error }}</div>{% endif %}
         </div>
         <div class="row">
-            <div class="span14">
+            <div class="span12">
                 <ul class="breadcrumb">
                     {% if path_parts %}
                     <li><a href="/shares/{{ share.id }}">root</a> <span class="divider">/</span></li>
@@ -19,34 +19,36 @@
                 </ul>
 
                 <div class="modal hide" id="createDirModal">
-                    <form action="" method="POST">
+                    <form class="form-horizontal" action="" method="POST">
                         <div class="modal-header">
-                            <a href="#" class="close">&times;</a>
+                            <a class="close" data-dismiss="modal">x</a>
                             <h3>Create New Folder</h3>
                         </div>
                         <div class="modal-body">
-                            <div class="clearfix">
+                            <div class="control-group">
                                 <label for="dirName">Name</label>
-                                <div class="input">
+                                <div class="controls">
                                     <input class="input" id="dirName" name="dirName" size="50" type="text" />
                                 </div>
                         </div>
                             
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn primary" name = "action" value="ok">Ok</a>
-                            <button type="submit" class="btn secondary" name = "action" value="cancel">Cancel</a>
+                            <button type="submit" class="btn btn-primary" name = "action" value="ok">Ok</a>
+                            <button type="submit" class="btn btn-secondary" name = "action" value="cancel">Cancel</a>
                         </div>
                     </form>
                 </div>
 
                 <div class="well" style="padding: 5px 10px;">
-                    <button data-controls-modal="createDirModal" data-backdrop="true" data-keyboard="true" class="btn success small">Add Files...</button>
-                    <button data-controls-modal="createDirModal" data-backdrop="true" data-keyboard="true" class="btn success small">New Folder</button>
+                    <a data-toggle="modal" data-backdrop="true" data-keyboard="true" class="btn">
+                        <i class="icon-upload"></i> Add Files...</a>
+                    <a data-toggle="modal" href="#createDirModal"class="btn">
+                        <i class="icon-folder-close"></i> New Folder</a>
                 </div>
 
                 {% if files %}
-                <table class="bordered-table zebra-striped">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>name</th>
@@ -61,7 +63,7 @@
                                 <td><img class="img" src="{{ url_for('static', filename='img/folder.png') }}">
                                     <a href="/{{ file.url }}">{{ file.name }}</a></td>
                                 {% else %}
-                                    <td><img src="{{ url_for('static', filename='img/file.png') }}">{{ file.name }}</td>
+                                    <td><img src="{{ url_for('static', filename='img/file.png') }}"> {{ file.name }}</td>
                                 {% endif %}
                                 <td class="modified">{{ file.mdate }}</td>
                                 <td class="size">{{ file.size }}</td>

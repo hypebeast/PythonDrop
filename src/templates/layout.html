@@ -15,13 +15,16 @@
 
     <body>
 
-        <div class="topbar">
-            <div class="fill">
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="/">PythonDrop</a>
                     <ul class="nav">
-                        <li class="dropdown" data-dropdown="dropdown">
-                            <a href="/shares" class="dropdown-toggle">Shares</a>
+                        <li class="dropdown" id="sharesnav">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#shresnav">
+                                Shares
+                                <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu">
                                 {% for share in shares %}
                                     <li><a href="/shares/{{ share.id }}">{{ share.sync_folder }}</a></li>
@@ -45,9 +48,7 @@
 
         <!-- JavaScript at the bottom for fast page loading -->
         <script src="{{ url_for('static', filename='js/vendor/jquery-1.7.1.min.js') }}" type="text/javascript"></script>
-        <script src="{{ url_for('static', filename='js/vendor/bootstrap-dropdown.js') }}" type="text/javascript"></script>
-        <script src="{{ url_for('static', filename='js/vendor/bootstrap-buttons.js') }}" type="text/javascript"></script>
-        <script src="{{ url_for('static', filename='js/vendor/bootstrap-modal.js') }}" type="text/javascript"></script>
+        <script src="{{ url_for('static', filename='js/vendor/bootstrap.js') }}" type="text/javascript"></script>
 
         <script src="{{ url_for('static', filename='js/app.js') }}" type="text/javascript"></script>
         <script src="{{ url_for('static', filename='js/utils.js') }}" type="text/javascript"></script>

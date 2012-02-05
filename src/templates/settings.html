@@ -5,64 +5,64 @@
             <h1>Settings</h1>
         </div>
         <div class="row">
-            <div class="span14">
+            <div class="span12">
                 <h3>General</h3>
-                <form method="POST">
+                <form class="form-horizontal" method="POST">
                     <fieldset>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="systrayInput">Show Systray</label>
-                            <div class="input">
+                            <div class="controls">
                                 <select id="systrayInput">
                                     <option>True</option>
                                     <option>False</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="logLevelInput">Log Level</label>
-                            <div class="input">
+                            <div class="controls">
                                 <select id="logLevelInput">
                                     <option>INFO</option>
                                     <option>DEBUG</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="apiIPInput">API Listen IP</label>
-                            <div class="input">
+                            <div class="controls">
                                 <input class="input" id="apiIPInput" name="apiIPInput" size="30" type="text" value="{{ settings.tcpListenIp }}"/>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="apiPortInput">API Listen Port</label>
-                            <div class="input">
+                            <div class="controls">
                                 <input class="input" id="apiPortInput" name="apiPortInput" size="30" type="text" value="{{ settings.tcpListenPort }}"/>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="enableWebServer">Enable Web Server</label>
-                            <div class="input">
+                            <div class="controls">
                                 <select id="enableWebServer">
                                     <option>True</option>
                                     <option>False</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="webServerIp">Web Server Listen IP</label>
-                            <div class="input">
+                            <div class="controls">
                                 <input class="input" id="webServerIp" name="webServerIp" size="30" type="text" value="{{ settings.webServerListenIp }}"/>
                             </div>
                         </div>
-                        <div class="clearfix">
+                        <div class="control-group">
                             <label for="webServerPort">Web Server Listen Port</label>
-                            <div class="input">
+                            <div class="controls">
                                 <input class="input" id="webServerPort" name="webServerPort" size="30" type="text" value="{{ settings.webServerListenPort }}"/>
                             </div>
                         </div>
                     </fieldset>
 
-                    <div class="well" align="right" style="padding: 5px 10px;">
+                    <div class="form-actions" align="right" style="padding: 5px 10px;">
                         <button class="btn primary">Save</button>
                     </div>
                 </form>

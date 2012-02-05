@@ -193,3 +193,6 @@ class Configuration:
         self.add_share("/Users/sruml/PythonDrop", "sebastianruml.com",
                 "PythonDrop/PythonDrop.git", "pythondrop")
 
+        self.add_share("/Users/sruml/PythonDrop2", "sebastianruml.com",
+                "PythonDrop/PythonDrop.git", "pythondrop")
+

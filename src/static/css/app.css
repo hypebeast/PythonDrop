@@ -10,7 +10,7 @@ body {
     text-align: center; /* center align it with the container */
 }
 .container {
-    width: 820px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+    width: 940px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
 }
 
 /* The white background content wrapper */
@@ -45,7 +45,7 @@ body {
     border-left: 1px solid #eee;
 }
 
-.topbar .btn {
+.navbar .btn {
     border: 0;
 }
 
@@ -55,6 +55,6 @@ table td.modified { width: 30%; }
 table td.size { width: 15%; }
 
 /* Share listing */
-.sharelist {
-
+.share-name {
+    font-size: 16px;
 }

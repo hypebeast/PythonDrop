@@ -5,16 +5,16 @@
             <h1>Dashboard</h1>
         </div>
         <div class="row">
-            <div class="span14">
+            <div class="span12">
                 <h2>Shares</h2>
                 {% if shares %}
                     {% for share in shares %}
                     <div class="row">
                     <div class="span6">
-                        <strong>{{ share.sync_folder }}</strong>
+                        <span class="share-name">{{ share.sync_folder }}</span>
                     </div>
-                    <div class="span8">
-                        <h4><a href="/shares/{{ share.id }}">Show</a></h4>
+                    <div class="span6">
+                        <span class="share-name"><a href="/shares/{{ share.id }}">Go</a></span>
                     </div>
                     </div>
                 {% endfor %}
