@@ -57,7 +57,7 @@ def main():
         print "usage: PythonDrop.py start|stop|restart"
         sys.exit(2)
 
-    daemon = app_manager.AppManager("/tmp/pythondrop.pid")
+    daemon = app_manager.AppManager("/tmp/pythondrop.pid", debug=options.debugmode)
     # Parse args
     if args[0] == "start":
         if options.debugmode:

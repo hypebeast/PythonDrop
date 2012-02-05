@@ -44,11 +44,6 @@ class Configuration:
     def __init__(self):
         self._globals = globals.Globals()
 
-        if self._globals is None:
-            print "Globals is null!"
-        else:
-            print "Globals isn't null"
-
         if not os.path.exists(self._globals.confDir):
             try:
                 os.makedirs(self._globals.confDir)
@@ -56,7 +51,7 @@ class Configuration:
                 raise ConfigurationError(error)
 
         # Open the database
-        self._engine = create_engine('sqlite:///' + self._globals.cfgDb, convert_unicode=True, echo=True)
+        self._engine = create_engine('sqlite:///' + self._globals.cfgDb, convert_unicode=True)
         Session = scoped_session(sessionmaker(autocommit=False,
                                                     autoflush=False,
                                                     bind=self._engine))
@@ -192,6 +187,9 @@ class Configuration:
 
     webServerListenPort = property(get_webServerListenPort, set_webServerListenPort)
 
+    debugEnabled = False
+
     def add_test_share(self):
-        self.add_share("/Users/sruml/PythonDrop", "sebastianruml.com", "PythonDrop/PythonDrop.git", "pythondrop")
+        self.add_share("/Users/sruml/PythonDrop", "sebastianruml.com",
+                "PythonDrop/PythonDrop.git", "pythondrop")
 

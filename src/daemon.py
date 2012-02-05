@@ -73,19 +73,18 @@ class Daemon:
             sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)
 
-        if sys.platform == 'darwin': # This block breaks on OS X
-            # Redirect standard file descriptors
-            sys.stdout.flush()
-            sys.stderr.flush()
-            si = file(self.stdin, 'r')
-            so = file(self.stdout, 'a+')
-            if self.stderr:
-                se = file(self.stderr, 'a+', 0)
-            else:
-                se = so
-            os.dup2(si.fileno(), sys.stdin.fileno())
-            os.dup2(so.fileno(), sys.stdout.fileno())
-            os.dup2(se.fileno(), sys.stderr.fileno())
+        # Redirect standard file descriptors
+        sys.stdout.flush()
+        sys.stderr.flush()
+        si = file(self.stdin, 'r')
+        so = file(self.stdout, 'a+')
+        if self.stderr:
+            se = file(self.stderr, 'a+', 0)
+        else:
+            se = so
+        os.dup2(si.fileno(), sys.stdin.fileno())
+        os.dup2(so.fileno(), sys.stdout.fileno())
+        os.dup2(se.fileno(), sys.stderr.fileno())
 
         def sigtermhandler(signum, frame):
             self.daemon_alive = False
@@ -100,10 +99,10 @@ class Daemon:
         pid = str(os.getpid())
         file(self.pidfile,'w+').write("%s\n" % pid)
 
-	def delpid(self):
+    def delpid(self):
 		os.remove(self.pidfile)
 
-	def start(self):
+    def start(self):
 		"""
 		Start the daemon
 		"""
@@ -130,7 +129,7 @@ class Daemon:
 		self.daemonize()
 		self.run()
 
-	def stop(self):
+    def stop(self):
 		"""
 		Stop the daemon
 		"""
@@ -175,14 +174,14 @@ class Daemon:
 		if self.verbose >= 1:
 			print "Stopped"
 
-	def restart(self):
+    def restart(self):
 		"""
 		Restart the daemon
 		"""
 		self.stop()
 		self.start()
 
-	def run(self):
+    def run(self):
 		"""
 		You should override this method when you subclass Daemon. It will be called after the process has been
 		daemonized by start() or restart().

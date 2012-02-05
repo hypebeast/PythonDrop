@@ -37,15 +37,15 @@ __version__ = '0.2.0'
 globalVars = globals.Globals()
 globalVars.version = __version__
 globalVars.baseDir = os.path.dirname(os.path.realpath(__file__))
-globalVars.confDir = globalVars.baseDir
 globalVars.confDir = os.path.join(os.path.expanduser('~'), '.' + __appName__)
 globalVars.cfgFile = os.path.join(globalVars.confDir, 'config.ini')
 globalVars.cfgDb = os.path.join(globalVars.confDir, 'config.db')
+globalVars.logFile = os.path.join(globalVars.confDir, 'pythondrop.log')
 
 
 class AppManager(Daemon):
-    def __init__(self, pidfile):
-        Daemon.__init__(self, pidfile)
+    def __init__(self, pidfile, debug=False):
+        Daemon.__init__(self, pidfile=pidfile)
 
         self._systray = None
 
@@ -53,14 +53,14 @@ class AppManager(Daemon):
         self._globals = globals.Globals()
 
         # Create the logger
-        self._logger = log.Logger()
+        self._logger = log.Logger(self._globals.logFile)
 
 		# Load settings
         self._configOld = Config(self._globals.cfgFile, self._globals.DEFAULT_CONFIG)
-        #self._globals.config = self._config
 
         self._config = Configuration()
         self._globals.config = self._config
+        self._config.debugEnabled = debug
 
         # Set the log level
         self._logger.set_level(self._config.logLevel)
@@ -71,9 +71,8 @@ class AppManager(Daemon):
         self._api_server = ApiServer(self, self._config.tcpListenIp, self._config.tcpListenPort)
 
         # Start the web server
-        self.web_server = WebServer()
-
-        # TODO: Add support for more than one share!
+        if self._config.enableWebServer:
+            self.web_server = WebServer()
 
         # Check if the systray should be shown
         if self._config.enableSystray:
@@ -83,21 +82,21 @@ class AppManager(Daemon):
 		# Create the file watcher
         self._fswatcher = FSWatcher(self._configOld)
 
+        self._fswatchers = []
+        for share in self._config.shares:
+            print share.sync_folder
+
     def run(self):
 		# Start watching and syncing files
         self._fswatcher.watch()
 
-	def start(self):
-		"""
-		Starts watching the repository.
-		"""
-		self._fswatcher.start()
+        # TODO: Create for every share a new thread
 
-	def stop(self):
-		"""
-		Stops watching the repository.
-		"""
-		self._fswatcher.stop()
+    def start(self):
+        Daemon.start(self)
+
+    def stop(self):
+        Daemon.stop(self)
 
     def reastart(self):
         pass

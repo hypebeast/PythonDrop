@@ -26,6 +26,7 @@ class _Globals:
         self.confDir = None
         self.cfgFile = None
         self.cfgDb = None
+        self.logFile = None
         self.config = None
         self.argv = None
 

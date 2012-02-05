@@ -7,44 +7,66 @@
         <div class="row">
             <div class="span14">
                 <h3>General</h3>
-                <table class="bordered-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Log Level</td>
-                            <td>{{ settings.logLevel }}</td>
-                        </tr>
-                        <tr>
-                            <td>Show Systray</td>
-                            <td>{{ settings.enableSystray }}</td>
-                        </tr>
-                        <tr>
-                            <td>API Listen IP</td>
-                            <td>{{ settings.tcpListenIp }}</td>
-                        </tr>
-                        <tr>
-                            <td>API Listen Port</td>
-                            <td>{{ settings.tcpListenPort }}</td>
-                        </tr>
-                        <tr>
-                            <td>Enable Web Server</td>
-                            <td>{{ settings.enableWebServer }}</td>
-                        </tr>
-                        <tr>
-                            <td>Web Server Listen IP</td>
-                            <td>{{ settings.webServerListenIp }}</td>
-                        </tr>
-                        <tr>
-                            <td>Web Server Listen Port</td>
-                            <td>{{ settings.webServerListenPort }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <form method="POST">
+                    <fieldset>
+                        <div class="clearfix">
+                            <label for="systrayInput">Show Systray</label>
+                            <div class="input">
+                                <select id="systrayInput">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="logLevelInput">Log Level</label>
+                            <div class="input">
+                                <select id="logLevelInput">
+                                    <option>INFO</option>
+                                    <option>DEBUG</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="apiIPInput">API Listen IP</label>
+                            <div class="input">
+                                <input class="input" id="apiIPInput" name="apiIPInput" size="30" type="text" value="{{ settings.tcpListenIp }}"/>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="apiPortInput">API Listen Port</label>
+                            <div class="input">
+                                <input class="input" id="apiPortInput" name="apiPortInput" size="30" type="text" value="{{ settings.tcpListenPort }}"/>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="enableWebServer">Enable Web Server</label>
+                            <div class="input">
+                                <select id="enableWebServer">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="webServerIp">Web Server Listen IP</label>
+                            <div class="input">
+                                <input class="input" id="webServerIp" name="webServerIp" size="30" type="text" value="{{ settings.webServerListenIp }}"/>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label for="webServerPort">Web Server Listen Port</label>
+                            <div class="input">
+                                <input class="input" id="webServerPort" name="webServerPort" size="30" type="text" value="{{ settings.webServerListenPort }}"/>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="well" align="right" style="padding: 5px 10px;">
+                        <button class="btn primary">Save</button>
+                    </div>
+                </form>
+
                 <h3>Shares</h3>
             </div>
         </div>

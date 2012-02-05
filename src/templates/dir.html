@@ -3,19 +3,47 @@
     <div class="content">
         <div class="page-header">
             <h1>Share <small>{{ share_name }}</small></h1>
+            {% if error %}<div class=error><strong>Error:</strong> {{ error }}</div>{% endif %}
         </div>
         <div class="row">
             <div class="span14">
                 <ul class="breadcrumb">
                     {% if path_parts %}
-                    <li><a href="/shares/0">root</a> <span class="divider">/</span></li>
+                    <li><a href="/shares/{{ share.id }}">root</a> <span class="divider">/</span></li>
                         {% for part in path_parts %}
                         <li><a href="/{{ part.url }}">{{ part.name }}</a> <span class="divider">/</span></li>
                         {% endfor %}
                     {% else %}
-                    <li><a href="/shares/0">root</a></li>
+                    <li><a href="/shares/{{ share.id }}">root</a></li>
                     {% endif %}
                 </ul>
+
+                <div class="modal hide" id="createDirModal">
+                    <form action="" method="POST">
+                        <div class="modal-header">
+                            <a href="#" class="close">&times;</a>
+                            <h3>Create New Folder</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="clearfix">
+                                <label for="dirName">Name</label>
+                                <div class="input">
+                                    <input class="input" id="dirName" name="dirName" size="50" type="text" />
+                                </div>
+                        </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn primary" name = "action" value="ok">Ok</a>
+                            <button type="submit" class="btn secondary" name = "action" value="cancel">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="well" style="padding: 5px 10px;">
+                    <button data-controls-modal="createDirModal" data-backdrop="true" data-keyboard="true" class="btn success small">Add Files...</button>
+                    <button data-controls-modal="createDirModal" data-backdrop="true" data-keyboard="true" class="btn success small">New Folder</button>
+                </div>
 
                 {% if files %}
                 <table class="bordered-table zebra-striped">
@@ -47,4 +75,8 @@
             </div>
         </div>
     </div> <!-- content -->
+{% endblock %}
+
+{% block js %}
+
 {% endblock %}
