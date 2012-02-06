@@ -40,7 +40,7 @@ globalVars.logFile = os.path.join(globalVars.confDir, 'pythondrop.log')
 
 class AppManager(Daemon):
     def __init__(self, pidfile, debug=False):
-        Daemon.__init__(self, pidfile=pidfile)
+        Daemon.__init__(self, pidfile=pidfile, verbose=0)
 
         self._systray = None
 
@@ -59,16 +59,15 @@ class AppManager(Daemon):
         # Set the log level
         self._logger.set_level(self._config.logLevel)
 
+    def run(self):
         self._logger.info("Starting PythonDrop v" + self._globals.version + "...")
 
-
-    def run(self):
 		# Create and start the API server
         self._api_server = ApiServer(self, self._config.tcpListenIp, self._config.tcpListenPort)
 
         # Start the web server
         if self._config.enableWebServer:
-            self.web_server = WebServer()
+            self._web_server = WebServer()
 
         # Check if the systray should be shown
         if self._config.enableSystray:
@@ -92,7 +91,7 @@ class AppManager(Daemon):
 
     def stop(self):
         # TODO: Stop the fswatcher and the web server
-
+        self.exit()
         Daemon.stop(self)
 
     def restart(self):
@@ -103,15 +102,6 @@ class AppManager(Daemon):
         pass
 
     def exit(self):
-        if self._config.get_option('enableGui', 'general'):
-            self._systray.exit()
-
-
-if __name__ == '__main__':
-	try:
-		PythonDrop()
-	except SystemExit:
-		raise
-	except:
-		import traceback
-		traceback.print_exc()
+        #if self._config.get_option('enableGui', 'general'):
+        #    self._systray.exit()
+        pass

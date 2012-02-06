@@ -33,13 +33,6 @@ app = Flask(__name__)
 # Configuration
 configuration = None
 
-def init_db():
-    pass
-
-def connect_db():
-    # Connect to the database
-    pass
-
 @app.before_request
 def before_request():
     # TODO: Make sure that we're connect to the database
@@ -62,9 +55,20 @@ def shares(share_id=None, dir=None):
     shares = configuration.shares
     error = None
 
+    if share_id == None:
+        error = "No share id given"
+        return render_template('dir.html', error=error)
+
+    share = get_share_by_id(share_id)
+    share_dir = share.sync_folder
+    if dir != None:
+        root_path = os.path.join(share_dir, dir)
+    else:
+        root_path = share_dir
+
     if request.method == 'POST':
         # FIXME: Add support for mode type
-        if request.form.get('action', None) == 'ok':
+        if request.form.get('action', None) == 'ok': # Create folder
             dirName = request.form['dirName']
             share = get_share_by_id(share_id)
             if not None and len(dirName) > 0 and share != None:
@@ -78,10 +82,6 @@ def shares(share_id=None, dir=None):
                     error = "Directory exists already"
             else:
                 error = "Invalid filename"
-
-    if share_id == None:
-        error = "No share id given"
-        return render_template('dir.html', error=error)
 
     share = get_share_by_id(share_id)
     if share is not None:

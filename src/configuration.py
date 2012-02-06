@@ -190,6 +190,9 @@ class Configuration:
     debugEnabled = False
 
     def add_test_share(self):
+        """
+        Adds some test shares
+        """
         self.add_share("/Users/sruml/PythonDrop", "sebastianruml.com",
                 "PythonDrop/PythonDrop.git", "pythondrop")
 

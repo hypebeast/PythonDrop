@@ -160,7 +160,8 @@ class Daemon:
 		# Try killing the daemon process
 		try:
 			while 1:
-				os.kill(pid, signal.SIGTERM)
+				#os.kill(pid, signal.SIGTERM)
+				os.kill(pid, signal.SIGKILL)
 				time.sleep(0.1)
 		except OSError, err:
 			err = str(err)
@@ -186,4 +187,21 @@ class Daemon:
 		You should override this method when you subclass Daemon. It will be called after the process has been
 		daemonized by start() or restart().
 		"""
+
+    def running(self):
+		# Check for a pidfile to see if the daemon already runs
+        try:
+            pf = file(self.pidfile,'r')
+            pid = int(pf.read().strip())
+            pf.close()
+        except IOError:
+            pid = None
+        except SystemExit:
+			pid = None
+
+        if pid is not None: return True
+        else: return False
+
+    def stopped(self):
+        return not self.running()
 
