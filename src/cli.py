@@ -28,7 +28,7 @@ class Cli():
         self._args = args
         self._options = options
 
-        self._usage = "usage: %prog start|stop|restart"
+        self._usage = "usage: pythondrop start|stop|restart|create|status|config|factoryreset|help"
 
         self._app = AppManager(self.pid_file(), debug=self._options.debugmode)
         self._config = self._app._config
@@ -38,8 +38,8 @@ class Cli():
 
     def parseArgs(self):
         # Check for the correct numbers of arguments
-        if len(self._args) != 1:
-            print self._usage
+        if len(self._args) < 1:
+            self.print_help_message()
             sys.exit(2)
 
         if self._args[0] == 'start':
@@ -54,7 +54,11 @@ class Cli():
             self.status()
         elif self._args[0] == 'config':
             self.config()
-        elif self.args[0] == 'factoryreset':
+        elif self._args[0] == 'factoryreset':
+            pass
+        elif self._args[0] == 'help':
+            self.help()
+        elif self._args[0] == 'rm':
             pass
         else:
             print "Unknown command"
@@ -84,8 +88,15 @@ class Cli():
         self.start()
 
     def create(self):
-        if len(self._args) < 4:
-            print "Error"
+        if len(self._args) is not 5:
+            print "False number of arguments!"
+            return
+
+        # Add new repository
+        self._config.add_share(self._args[1], self._args[2], self._args[3], self._args[4])
+
+        # Restart PythonDrop
+        self.restart()
 
     def status(self):
         print "PythonDrop v" + self._globs.version
@@ -104,9 +115,11 @@ class Cli():
             print "  - Web Server Listen IP: " + self._config.webServerListenIp
             print "  - Web Server Listen Port: " + str(self._config.webServerListenPort)
             print "  - Systray Enabled: " + str(self._config.enableSystray)
+        elif len(self._args) > 1:
+            pass
 
     def help(self):
-        pass
+        self.print_help_message()
 
     def running(self):
         return self._app.running()
@@ -116,3 +129,19 @@ class Cli():
 
     def pid_file(self):
         return "/tmp/pythondrop.pid"
+
+    def print_help_message(self):
+        print self._usage
+        print "Type pythondrop -h or pythondrop --help to see all options"
+        print
+        print "Arguments:"
+        print "  start:          Start PythonDrop"
+        print "  stop:           Stop PythonDrop"
+        print "  restart:        Restart PythonDrop"
+        print "  create:         Create and add a new share."
+        print "                  Usage: create sync_directory remote_host remote_directory remote_user"
+        print "  rm:             Removes the specified share"
+        print "  status:         Shows the current status"
+        print "  config:         Shows the current configuration"
+        print "  factoryreset:   Resets all settings"
+        print "  help:           Prints this help message"

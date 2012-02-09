@@ -113,7 +113,7 @@ class Configuration:
         self._dbSession.add(share)
         self._dbSession.commit()
 
-    def remove_share(self, id):
+    def remove_share(self, syncFolder):
         pass
 
     def get_shares(self):

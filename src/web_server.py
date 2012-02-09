@@ -56,7 +56,7 @@ def shares(share_id=None, dir=None):
     error = None
 
     if share_id == None:
-        error = "No share id given"
+        error = "No share id found!"
         return render_template('dir.html', error=error)
 
     share = get_share_by_id(share_id)
@@ -70,7 +70,6 @@ def shares(share_id=None, dir=None):
         # FIXME: Add support for mode type
         if request.form.get('action', None) == 'ok': # Create folder
             dirName = request.form['dirName']
-            share = get_share_by_id(share_id)
             if not None and len(dirName) > 0 and share != None:
                 if dir != None:
                     dirPath = os.path.join(os.path.join(share.sync_folder, dir), dirName)

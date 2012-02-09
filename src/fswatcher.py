@@ -1,4 +1,4 @@
-# Copyright (C) 2010 - 2011 Sebastian Ruml <sebastian.ruml@gmail.com>
+# Copyright (C) 2010 - 2012 Sebastian Ruml <sebastian.ruml@gmail.com>
 #
 # This file is part of the PythonDrop project
 #
