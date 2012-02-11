@@ -107,7 +107,7 @@ class Cli():
     def config(self):
         if len(self._args) == 1:
             # TODO: Print configuration
-            print "Configuration:"
+            print "Settings:"
             print "  - Log Level: " + self._config.logLevel
             print "  - API Listen IP: " + self._config.tcpListenIp
             print "  - API Listen Port: " + str(self._config.tcpListenPort)
@@ -132,16 +132,16 @@ class Cli():
 
     def print_help_message(self):
         print self._usage
-        print "Type pythondrop -h or pythondrop --help to see all options"
+        print "Type pythondrop -h or pythondrop --help to get more information about all options"
         print
-        print "Arguments:"
-        print "  start:          Start PythonDrop"
-        print "  stop:           Stop PythonDrop"
-        print "  restart:        Restart PythonDrop"
-        print "  create:         Create and add a new share."
-        print "                  Usage: create sync_directory remote_host remote_directory remote_user"
-        print "  rm:             Removes the specified share"
-        print "  status:         Shows the current status"
-        print "  config:         Shows the current configuration"
-        print "  factoryreset:   Resets all settings"
-        print "  help:           Prints this help message"
+        print "Commands:"
+        print "  start          Start PythonDrop"
+        print "  stop           Stop PythonDrop"
+        print "  restart        Restart PythonDrop"
+        print "  create         Create and add a new share."
+        print "                 Usage: create sync_directory remote_host remote_directory remote_user"
+        print "  rm             Removes the specified share"
+        print "  status         Shows the current status"
+        print "  config         Shows the current configuration"
+        print "  factoryreset   Resets all settings"
+        print "  help           Prints this help message"

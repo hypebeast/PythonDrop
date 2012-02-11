@@ -88,6 +88,7 @@ class Configuration:
         enableSystray = Column(Boolean())
         tcpListenIp = Column(String(50))
         tcpListenPort = Column(Integer)
+        enableAPI = Column(Boolean())
         enableWebServer = Column(Boolean())
         webServerListenIp = Column(String(50))
         webServerListenPort = Column(Integer)
@@ -101,6 +102,7 @@ class Configuration:
         settings.enableSystray = False
         settings.tcpListenIp = "127.0.0.1"
         settings.tcpListenPort = "12444"
+        settings.enableAPI = True
         settings.enableWebServer = True
         settings.webServerListenIp = "127.0.0.1"
         settings.webServerListenPort = "4567"
