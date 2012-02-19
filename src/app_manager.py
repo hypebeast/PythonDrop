@@ -20,7 +20,7 @@ from fswatcher import FSWatcher
 from api_server import ApiServer
 from config import Config
 from configuration import Configuration
-from gui import pythondrop_ui
+from systray import Systray
 from daemon import Daemon
 from web_server import WebServer
 import globals
@@ -32,10 +32,6 @@ import os
 # Initialize some global variables
 globalVars = globals.Globals()
 globalVars.baseDir = os.path.dirname(os.path.realpath(__file__))
-globalVars.confDir = os.path.join(os.path.expanduser('~'), '.' + globalVars.appName)
-globalVars.cfgFile = os.path.join(globalVars.confDir, 'config.ini')
-globalVars.cfgDb = os.path.join(globalVars.confDir, 'config.db')
-globalVars.logFile = os.path.join(globalVars.confDir, 'pythondrop.log')
 
 
 class AppManager(Daemon):
@@ -63,16 +59,18 @@ class AppManager(Daemon):
         self._logger.info("Starting PythonDrop v" + self._globals.version + "...")
 
 		# Create and start the API server
-        self._api_server = ApiServer(self, self._config.tcpListenIp, self._config.tcpListenPort)
+        if self._config.enableApi:
+            self._api_server = ApiServer(self, self._config.tcpListenIp, self._config.tcpListenPort)
 
         # Start the web server
         if self._config.enableWebServer:
             self._web_server = WebServer()
 
         # Check if the systray should be shown
-        if self._config.enableSystray:
+        #if self._config.enableSystray:
+        if True:
             self._logger.debug("Creating systray...")
-            self._systray = pythondrop_ui.Systray(self._globals)
+            self._systray = Systray(self._globals)
 
 		# Create the file watcher
         self._fswatcher = FSWatcher(self._configOld)

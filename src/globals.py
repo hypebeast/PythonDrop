@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+import os
 
 globals = None
 
@@ -23,10 +24,10 @@ class _Globals:
         self.version = '0.2.0'
         self.pythondrop = None
         self.baseDir = None
-        self.confDir = None
-        self.cfgFile = None
-        self.cfgDb = None
-        self.logFile = None
+        self.confDir = os.path.join(os.path.expanduser('~'), '.' + self.appName)
+        self.cfgFile = os.path.join(self.confDir, 'config.ini')
+        self.cfgDb = os.path.join(self.confDir, 'config.db')
+        self.logFile = os.path.join(self.confDir, 'pythondrop.log')
         self.config = None
         self.argv = None
 

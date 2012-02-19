@@ -60,7 +60,6 @@ class Configuration:
         if not os.path.exists(self._globals.cfgDb):
             Base.metadata.create_all(self._engine)
             self.create_default_config()
-            self.add_test_share()
 
     class Share(Base):
         __tablename__ = 'shares'
@@ -161,6 +160,15 @@ class Configuration:
         self._dbSession.commit()
 
     tcpListenPort = property(get_tcpListenPort, set_tcpListenPort)
+
+    def get_enableApi(self):
+        return self.app_settings().enableAPI
+
+    def set_enableApi(self, enable):
+        self.app_settings().enableAPI = enable
+        self._dbSession.commit()
+
+    enableApi = property(get_enableApi, set_enableApi)
 
     def get_enableWebserver(self):
         return self.app_settings().enableWebServer

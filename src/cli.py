@@ -96,7 +96,7 @@ class Cli():
         self._config.add_share(self._args[1], self._args[2], self._args[3], self._args[4])
 
         # Restart PythonDrop
-        self.restart()
+        if self.running(): self.restart()
 
     def status(self):
         print "PythonDrop v" + self._globs.version

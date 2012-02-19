@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# -*- coding: utf-8 -*-
+
 # Copyright (C) 2010 - 2012 Sebastian Ruml <sebastian.ruml@gmail.com>
 #
 # This file is part of the PythonDrop project
@@ -34,12 +36,15 @@ import os
 import subprocess
 import socket
 
-from src import config
+from configuration import Configuration
 
 
-class Systray(QtGui.QDialog):
-    def __init__(self, argv):
-        super(PythonDropGui, self).__init__()
+class SystrayUi(QtGui.QDialog):
+    def __init__(self):
+        super(SystrayUi, self).__init__()
+
+        # Get the configuration
+        self._config = Configuration()
 
         self._socket = None
 
@@ -49,15 +54,8 @@ class Systray(QtGui.QDialog):
         self._remoteUser = None
         self._remoteRepositoryPath = None
 
-        self._respath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "res")
-
-        if len(argv) < 2:
-            raise
-
-        self._configFile = argv[1]
-
-        # Load settings
-        self._config = config.Config(self._configFile)
+        staticPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static")
+        self._respath = os.path.join(staticPath, "img")
 
         self.createLocalSettingsGroupBox()
         self.createRemoteSettingsGroupBox()
@@ -74,16 +72,13 @@ class Systray(QtGui.QDialog):
         mainLayout.addLayout(self.buttonsLayout)
         self.setLayout(mainLayout)
 
-        # Connect to PythonDrop daemon
-        self.connect()
-
         # Read and apply all settings
-        self.loadSettings()
+        #self.loadSettings()
 
         # Show the systray icon
         self.trayIcon.show()
 
-        self.setWindowTitle("PythonDrop Preferences")
+        self.setWindowTitle("PythonDrop")
         self.resize(500, 300)
         self.hide()
 
@@ -308,7 +303,7 @@ class Systray():
     Handles the startup and shutdown of the systray.
     """
     def __init__(self, globalObjects):
-        command = 'python ' + __file__ + " " + globalObjects.cfgFile
+        command = 'python ' + __file__
         self._process = subprocess.Popen(command, shell=True)
 
     def start(self):
@@ -331,7 +326,7 @@ if __name__ == '__main__':
 
         QtGui.QApplication.setQuitOnLastWindowClosed(False)
 
-        window = Systray(sys.argv)
+        window = SystrayUi()
         #window.show()
         sys.exit(app.exec_())
     except SystemExit:

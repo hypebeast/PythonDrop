@@ -43,12 +43,10 @@ def index():
     global configuration
     shares = configuration.shares
 
-    # TODO: Add check for only one share; then redirect to that share
-
     return render_template('home.html', shares=shares)
 
 #@app.route('/shares/')
-@app.route('/shares/<int:share_id>/',methods=['POST', 'GET'])
+@app.route('/shares/<int:share_id>/', methods=['POST', 'GET'])
 @app.route('/shares/<int:share_id>/<path:dir>/', methods=['POST', 'GET'])
 def shares(share_id=None, dir=None):
     global configuration
@@ -82,7 +80,6 @@ def shares(share_id=None, dir=None):
             else:
                 error = "Invalid filename"
 
-    share = get_share_by_id(share_id)
     if share is not None:
         share_path = share.sync_folder
     else:
